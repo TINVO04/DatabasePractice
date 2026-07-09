@@ -56,3 +56,38 @@ VALUES
     ('HDMI Cable 1.5m', 150000, 100, 5),
     ('USB-C Cable 2m', 220000, 90, 5),
     ('DisplayPort Cable', 300000, 45, 5);
+
+-- =====================================================
+-- 2. Pagination: danh sách sản phẩm theo page/pageSize
+-- =====================================================
+-- Ví dụ: page = 1, pageSize = 5
+-- Công thức: OFFSET = (page - 1) * pageSize = (1 - 1) * 5 = 0
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name,
+    p.created_at
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+ORDER BY p.id ASC
+LIMIT 5 OFFSET 0;
+
+-- Ví dụ: page = 2, pageSize = 5
+-- Công thức: OFFSET = (2 - 1) * 5 = 5
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name,
+    p.created_at
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+ORDER BY p.id ASC
+LIMIT 5 OFFSET 5;
