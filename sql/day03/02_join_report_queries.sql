@@ -44,3 +44,18 @@ FROM enrollments e
 INNER JOIN students s ON e.student_id = s.id
 INNER JOIN courses c ON e.course_id = c.id
 ORDER BY s.id ASC;
+
+-- =====================================================
+-- 3. GROUP BY + COUNT: số sinh viên theo từng khóa học
+-- =====================================================
+-- GROUP BY dùng để gom các dòng có cùng course lại thành 1 nhóm.
+-- COUNT dùng để đếm số enrollment trong từng course.
+
+SELECT
+    c.id AS course_id,
+    c.course_name,
+    COUNT(e.student_id) AS total_students
+FROM courses c
+INNER JOIN enrollments e ON c.id = e.course_id
+GROUP BY c.id, c.course_name
+ORDER BY c.id ASC;
