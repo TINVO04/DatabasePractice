@@ -353,3 +353,74 @@ INNER JOIN stock_out so ON u.id = so.user_id
 WHERE u.is_deleted = FALSE
 GROUP BY u.id, u.full_name
 ORDER BY total_sales_amount DESC;
+
+-- =====================================================
+-- 6. Required queries group D: search, sort, pagination và soft delete
+-- =====================================================
+
+-- Query 16: Search sản phẩm theo keyword
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.price,
+    p.stock_quantity
+FROM products p
+WHERE p.is_deleted = FALSE
+  AND p.product_name ILIKE '%keyboard%'
+ORDER BY p.product_name ASC;
+
+-- Query 17: Sort sản phẩm theo giá giảm dần
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.price,
+    p.stock_quantity
+FROM products p
+WHERE p.is_deleted = FALSE
+ORDER BY p.price DESC;
+
+-- Query 18: Pagination danh sách sản phẩm page 1, pageSize 5
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.price,
+    p.stock_quantity
+FROM products p
+WHERE p.is_deleted = FALSE
+ORDER BY p.id ASC
+LIMIT 5 OFFSET 0;
+
+-- Query 19: Pagination danh sách sản phẩm page 2, pageSize 5
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.price,
+    p.stock_quantity
+FROM products p
+WHERE p.is_deleted = FALSE
+ORDER BY p.id ASC
+LIMIT 5 OFFSET 5;
+
+-- Query 20: Kết hợp search + category + pagination
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.price,
+    p.stock_quantity,
+    c.category_name,
+    s.supplier_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+INNER JOIN suppliers s ON p.supplier_id = s.id
+WHERE p.is_deleted = FALSE
+  AND c.is_deleted = FALSE
+  AND s.is_deleted = FALSE
+  AND p.product_name ILIKE '%cable%'
+  AND c.category_name = 'Cable'
+ORDER BY p.price ASC
+LIMIT 5 OFFSET 0;
