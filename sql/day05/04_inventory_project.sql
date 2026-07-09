@@ -173,3 +173,47 @@ VALUES
     (10, 1, 3, 700000, 'Customer order'),
     (13, 2, 10, 150000, 'Customer order'),
     (14, 3, 8, 220000, 'Customer order');
+
+-- =====================================================
+-- 3. Required queries group A: CRUD và đọc dữ liệu cơ bản
+-- =====================================================
+
+-- Query 1: Lấy danh sách tất cả sản phẩm chưa bị xóa
+SELECT
+    id,
+    product_name,
+    sku,
+    price,
+    stock_quantity
+FROM products
+WHERE is_deleted = FALSE
+ORDER BY id ASC;
+
+-- Query 2: Lấy chi tiết một sản phẩm theo SKU
+SELECT
+    id,
+    product_name,
+    sku,
+    price,
+    stock_quantity
+FROM products
+WHERE sku = 'KB-K1'
+  AND is_deleted = FALSE;
+
+-- Query 3: Thêm một supplier mới
+INSERT INTO suppliers (supplier_name, phone, email, address)
+VALUES ('New Supplier Demo', '0901999999', 'new.supplier@example.com', 'Demo Address');
+
+-- Query 4: Cập nhật giá một sản phẩm theo SKU
+UPDATE products
+SET
+    price = 1250000,
+    updated_at = CURRENT_TIMESTAMP
+WHERE sku = 'KB-K1';
+
+-- Query 5: Soft delete một supplier demo
+UPDATE suppliers
+SET
+    is_deleted = TRUE,
+    updated_at = CURRENT_TIMESTAMP
+WHERE email = 'new.supplier@example.com';
