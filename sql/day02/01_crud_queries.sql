@@ -45,4 +45,52 @@ VALUES
     ('Ta Hoai Xuan', 'xuan.ta@example.com', '2003-04-29'),
     ('Vu Ngoc Yen', 'yen.vu@example.com', '2002-06-06');
 
+-- =====================================================
+-- 3. INSERT: thêm một sinh viên mới
+-- =====================================================
+-- INSERT thêm một dòng dữ liệu mới vào bảng students.
+-- Email phải là email chưa tồn tại vì cột email có UNIQUE.
+
+INSERT INTO students (full_name, email, date_of_birth)
+VALUES ('Test Student', 'test.student@example.com', '2004-01-01');
+
+-- Kiểm tra sinh viên vừa thêm.
+SELECT id, full_name, email, date_of_birth, created_at
+FROM students
+WHERE email = 'test.student@example.com';
+
+-- =====================================================
+-- 4. UPDATE: sửa thông tin sinh viên
+-- =====================================================
+-- UPDATE dùng để sửa dữ liệu đã có.
+-- WHERE giúp chỉ sửa đúng sinh viên cần sửa.
+
+UPDATE students
+SET
+    full_name = 'Test Student Updated',
+    date_of_birth = '2004-02-02'
+WHERE email = 'test.student@example.com';
+
+-- Kiểm tra dữ liệu sau khi update.
+SELECT id, full_name, email, date_of_birth, created_at
+FROM students
+WHERE email = 'test.student@example.com';
+
+-- =====================================================
+-- 5. DELETE: xóa sinh viên theo điều kiện
+-- =====================================================
+-- DELETE dùng để xóa dữ liệu.
+-- Luôn kiểm tra bằng SELECT trước khi DELETE để tránh xóa nhầm.
+
+SELECT id, full_name, email
+FROM students
+WHERE email = 'test.student@example.com';
+
+DELETE FROM students
+WHERE email = 'test.student@example.com';
+
+-- Kiểm tra lại, nếu không còn dòng nào nghĩa là đã xóa thành công.
+SELECT id, full_name, email
+FROM students
+WHERE email = 'test.student@example.com';
 
