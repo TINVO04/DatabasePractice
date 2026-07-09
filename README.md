@@ -28,7 +28,8 @@ DatabasePractice/
 │       └── 01_create_tables.sql
 ├── docs/
 │   └── day01/
-│       └── erd.md
+│       ├── erd.md
+│       └── mini_challenge_category_product_supplier.md
 ├── .gitignore
 └── README.md
 ```
@@ -41,11 +42,13 @@ DatabasePractice/
 - Viết file SQL tạo 3 bảng: `students`, `courses`, `enrollments`.
 - Chạy SQL thành công trong pgAdmin Query Tool.
 - Thiết kế ERD dạng Markdown cho quan hệ Student - Course - Enrollment.
+- Phân tích mini challenge Category - Product - Supplier.
 
 ### File chính
 
 - Script tạo bảng: `sql/day01/01_create_tables.sql`
 - Markdown mô tả ERD: `docs/day01/erd.md`
+- Mini challenge: `docs/day01/mini_challenge_category_product_supplier.md`
 
 ## Cách chạy SQL bằng pgAdmin
 
@@ -115,6 +118,23 @@ Bảng `enrollments` lưu thông tin đăng ký khóa học của học viên.
 | `course_id` | Khóa ngoại trỏ tới `courses.id` |
 | `enrolled_at` | Thời điểm đăng ký |
 | `status` | Trạng thái đăng ký |
+
+## Mini challenge - Category Product Supplier
+
+Mini challenge được phân tích trong file `docs/day01/mini_challenge_category_product_supplier.md`.
+
+Quan hệ tổng quát:
+
+```text
+categories 1 ---- N products N ---- 1 suppliers
+```
+
+Ý nghĩa:
+
+- Một category có thể có nhiều product.
+- Một supplier có thể cung cấp nhiều product.
+- Mỗi product trong phiên bản đơn giản thuộc về một category chính và một supplier chính.
+- Bảng `products` cần có `category_id` và `supplier_id` để liên kết dữ liệu.
 
 ## Vì sao cần khóa ngoại?
 
