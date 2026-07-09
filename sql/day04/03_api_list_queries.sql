@@ -180,3 +180,46 @@ FROM products p
 INNER JOIN categories c ON p.category_id = c.id
 WHERE p.is_deleted = FALSE
 ORDER BY p.product_name DESC;
+
+-- =====================================================
+-- 5. Mini challenge: search + category + pagination
+-- =====================================================
+-- Giả lập API list sản phẩm có 3 điều kiện:
+-- 1. Search theo tên sản phẩm.
+-- 2. Filter theo category.
+-- 3. Phân trang bằng LIMIT/OFFSET.
+-- Ví dụ: keyword = 'cable', category = 'Cable', page = 1, pageSize = 5
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name,
+    p.created_at
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+  AND c.is_deleted = FALSE
+  AND p.product_name ILIKE '%cable%'
+  AND c.category_name = 'Cable'
+ORDER BY p.price ASC
+LIMIT 5 OFFSET 0;
+
+-- Ví dụ khác: keyword = 'monitor', category = 'Monitor', page = 1, pageSize = 2
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name,
+    p.created_at
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+  AND c.is_deleted = FALSE
+  AND p.product_name ILIKE '%monitor%'
+  AND c.category_name = 'Monitor'
+ORDER BY p.price DESC
+LIMIT 2 OFFSET 0;
