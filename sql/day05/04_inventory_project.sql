@@ -217,3 +217,77 @@ SET
     is_deleted = TRUE,
     updated_at = CURRENT_TIMESTAMP
 WHERE email = 'new.supplier@example.com';
+
+-- =====================================================
+-- 4. Required queries group B: JOIN report
+-- =====================================================
+
+-- Query 6: Danh sách sản phẩm kèm category và supplier
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.price,
+    p.stock_quantity,
+    c.category_name,
+    s.supplier_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+INNER JOIN suppliers s ON p.supplier_id = s.id
+WHERE p.is_deleted = FALSE
+ORDER BY p.id ASC;
+
+-- Query 7: Danh sách nhập kho kèm tên sản phẩm và người thực hiện
+SELECT
+    si.id AS stock_in_id,
+    p.product_name,
+    u.full_name AS created_by,
+    si.quantity,
+    si.unit_cost,
+    si.quantity * si.unit_cost AS total_cost,
+    si.created_at
+FROM stock_in si
+INNER JOIN products p ON si.product_id = p.id
+INNER JOIN users u ON si.user_id = u.id
+ORDER BY si.id ASC;
+
+-- Query 8: Danh sách xuất kho kèm tên sản phẩm và người thực hiện
+SELECT
+    so.id AS stock_out_id,
+    p.product_name,
+    u.full_name AS created_by,
+    so.quantity,
+    so.unit_price,
+    so.quantity * so.unit_price AS total_amount,
+    so.created_at
+FROM stock_out so
+INNER JOIN products p ON so.product_id = p.id
+INNER JOIN users u ON so.user_id = u.id
+ORDER BY so.id ASC;
+
+-- Query 9: Danh sách sản phẩm có tồn kho thấp hơn 10
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.stock_quantity,
+    c.category_name,
+    s.supplier_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+INNER JOIN suppliers s ON p.supplier_id = s.id
+WHERE p.stock_quantity < 10
+  AND p.is_deleted = FALSE
+ORDER BY p.stock_quantity ASC;
+
+-- Query 10: Danh sách sản phẩm chưa từng được xuất kho
+SELECT
+    p.id,
+    p.product_name,
+    p.sku,
+    p.stock_quantity
+FROM products p
+LEFT JOIN stock_out so ON p.id = so.product_id
+WHERE so.id IS NULL
+  AND p.is_deleted = FALSE
+ORDER BY p.id ASC;
