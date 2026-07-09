@@ -41,12 +41,16 @@ DatabasePractice/
 │   │   └── 01_crud_queries.sql
 │   ├── day03/
 │   │   └── 02_join_report_queries.sql
-│   └── day04/
-│       └── 03_api_list_queries.sql
+│   ├── day04/
+│   │   └── 03_api_list_queries.sql
+│   └── day05/
+│       └── 04_inventory_project.sql
 ├── docs/
-│   └── day01/
-│       ├── erd.md
-│       └── mini_challenge_category_product_supplier.md
+│   ├── day01/
+│   │   ├── erd.md
+│   │   └── mini_challenge_category_product_supplier.md
+│   └── day05/
+│       └── erd.md
 ├── .gitignore
 └── README.md
 ```
@@ -304,6 +308,98 @@ page = 3, pageSize = 5 => LIMIT 5 OFFSET 10
 - is_deleted dùng cho soft delete, nghĩa là không xóa thật dữ liệu khỏi database.
 - created_at và updated_at là audit fields, giúp biết dữ liệu được tạo và cập nhật lúc nào.
 - Query API list thường kết hợp nhiều yếu tố: search, filter, sort và pagination.
+
+## Day 5 - Test SQL tuần 3 và Inventory Management mini project
+
+### Nội dung đã làm
+
+- Thiết kế database mini project Inventory Management.
+- Tạo 6 bảng chính: users, categories, suppliers, products, stock_in, stock_out.
+- Thêm khóa chính, khóa ngoại, audit fields và soft delete fields.
+- Seed dữ liệu mẫu cho users, categories, suppliers, products, stock_in và stock_out.
+- Viết đủ 20 query bắt buộc để review SQL tuần 3.
+- Viết query CRUD cơ bản cho inventory.
+- Viết query JOIN report cho sản phẩm, nhập kho và xuất kho.
+- Viết query GROUP BY, COUNT và SUM để thống kê dữ liệu kho.
+- Viết query search, sort, pagination và soft delete.
+- Tạo ERD Markdown mô tả quan hệ giữa các bảng Inventory.
+
+### File chính
+
+- `sql/day05/04_inventory_project.sql`
+- `docs/day05/erd.md`
+
+### Cách chạy SQL Day 5 bằng pgAdmin
+
+1. Mở pgAdmin 4.
+2. Kết nối server PostgreSQL 17.
+3. Mở database `database_practice`.
+4. Right click database `database_practice` > Query Tool.
+5. Copy từng nhóm query trong file `sql/day05/04_inventory_project.sql` vào Query Tool.
+6. Chạy theo thứ tự từ trên xuống dưới: create tables, seed data, rồi các nhóm query.
+7. Bấm Execute hoặc nhấn F5.
+
+Lưu ý: phần create tables có `DROP TABLE IF EXISTS`, nên nếu chạy lại từ đầu thì dữ liệu Inventory cũ sẽ bị reset.
+
+### ERD dạng Markdown
+
+```text
+categories 1 ---- N products N ---- 1 suppliers
+users      1 ---- N stock_in  N ---- 1 products
+users      1 ---- N stock_out N ---- 1 products
+```
+
+Ý nghĩa:
+
+- Một category có nhiều products.
+- Một supplier có nhiều products.
+- Một product có nhiều lần nhập kho trong stock_in.
+- Một product có nhiều lần xuất kho trong stock_out.
+- Một user có thể thực hiện nhiều lần nhập kho hoặc xuất kho.
+
+### 20 query bắt buộc
+
+Nhóm A - CRUD và đọc dữ liệu cơ bản:
+
+- Query 1: Lấy danh sách tất cả sản phẩm chưa bị xóa.
+- Query 2: Lấy chi tiết một sản phẩm theo SKU.
+- Query 3: Thêm một supplier mới.
+- Query 4: Cập nhật giá một sản phẩm theo SKU.
+- Query 5: Soft delete một supplier demo.
+
+Nhóm B - JOIN report:
+
+- Query 6: Danh sách sản phẩm kèm category và supplier.
+- Query 7: Danh sách nhập kho kèm tên sản phẩm và người thực hiện.
+- Query 8: Danh sách xuất kho kèm tên sản phẩm và người thực hiện.
+- Query 9: Danh sách sản phẩm có tồn kho thấp hơn 10.
+- Query 10: Danh sách sản phẩm chưa từng được xuất kho.
+
+Nhóm C - GROUP BY thống kê:
+
+- Query 11: Đếm số sản phẩm theo từng category.
+- Query 12: Tổng số lượng tồn kho theo từng category.
+- Query 13: Tổng tiền nhập kho theo từng sản phẩm.
+- Query 14: Tổng tiền xuất kho theo từng sản phẩm.
+- Query 15: Tổng doanh thu xuất kho theo từng user.
+
+Nhóm D - Search, sort, pagination và soft delete:
+
+- Query 16: Search sản phẩm theo keyword.
+- Query 17: Sort sản phẩm theo giá giảm dần.
+- Query 18: Pagination danh sách sản phẩm page 1, pageSize 5.
+- Query 19: Pagination danh sách sản phẩm page 2, pageSize 5.
+- Query 20: Kết hợp search + category + pagination.
+
+### Ghi chú học tập Day 5
+
+- Inventory Management cần lưu cả số lượng hiện tại và lịch sử nhập/xuất kho.
+- stock_in dùng để lưu lịch sử nhập kho.
+- stock_out dùng để lưu lịch sử xuất kho.
+- JOIN giúp lấy dữ liệu có quan hệ từ nhiều bảng.
+- GROUP BY kết hợp COUNT/SUM giúp tạo report thống kê.
+- Pagination dùng LIMIT/OFFSET để chia dữ liệu thành từng trang.
+- Soft delete dùng is_deleted để đánh dấu xóa thay vì xóa thật dữ liệu.
 
 ## Ghi chú học tập
 
