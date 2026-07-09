@@ -91,3 +91,92 @@ INNER JOIN categories c ON p.category_id = c.id
 WHERE p.is_deleted = FALSE
 ORDER BY p.id ASC
 LIMIT 5 OFFSET 5;
+
+-- =====================================================
+-- 3. Search: tìm sản phẩm theo tên
+-- =====================================================
+-- ILIKE dùng để tìm kiếm gần đúng và không phân biệt chữ hoa/chữ thường.
+-- Ví dụ keyword = 'keyboard'
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+  AND p.product_name ILIKE '%keyboard%'
+ORDER BY p.product_name ASC;
+
+-- Ví dụ keyword = 'monitor'
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+  AND p.product_name ILIKE '%monitor%'
+ORDER BY p.product_name ASC;
+
+-- =====================================================
+-- 4. Sort: sắp xếp sản phẩm theo price/name
+-- =====================================================
+-- Sort giúp API trả danh sách theo thứ tự người dùng chọn.
+
+-- Sort theo giá tăng dần: rẻ đến đắt
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+ORDER BY p.price ASC;
+
+-- Sort theo giá giảm dần: đắt đến rẻ
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+ORDER BY p.price DESC;
+
+-- Sort theo tên A-Z
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+ORDER BY p.product_name ASC;
+
+-- Sort theo tên Z-A
+
+SELECT
+    p.id,
+    p.product_name,
+    p.price,
+    p.stock_quantity,
+    c.category_name
+FROM products p
+INNER JOIN categories c ON p.category_id = c.id
+WHERE p.is_deleted = FALSE
+ORDER BY p.product_name DESC;
