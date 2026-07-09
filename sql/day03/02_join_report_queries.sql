@@ -73,3 +73,54 @@ FROM courses c
 LEFT JOIN enrollments e ON c.id = e.course_id
 WHERE e.id IS NULL
 ORDER BY c.id ASC;
+
+-- =====================================================
+-- 5. Mini challenge: Orders, OrderDetails và tổng tiền đơn hàng
+-- =====================================================
+-- Mục tiêu: tạo dữ liệu đơn hàng và dùng SUM để tính tổng tiền mỗi đơn.
+
+DROP TABLE IF EXISTS order_details;
+DROP TABLE IF EXISTS orders;
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_details (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
+    quantity INTEGER NOT NULL,
+    unit_price NUMERIC(12, 2) NOT NULL,
+
+    CONSTRAINT fk_order_details_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders(id)
+        ON DELETE CASCADE
+);
+
+INSERT INTO orders (customer_name)
+VALUES
+    ('Nguyen Van An'),
+    ('Tran Thi Binh'),
+    ('Le Minh Chau');
+
+INSERT INTO order_details (order_id, product_name, quantity, unit_price)
+VALUES
+    (1, 'Keyboard', 1, 500000),
+    (1, 'Mouse', 2, 250000),
+    (2, 'Monitor', 1, 3000000),
+    (2, 'HDMI Cable', 2, 150000),
+    (3, 'Laptop Stand', 1, 700000),
+    (3, 'USB Hub', 1, 450000);
+
+SELECT
+    o.id AS order_id,
+    o.customer_name,
+    SUM(od.quantity * od.unit_price) AS total_amount
+FROM orders o
+INNER JOIN order_details od ON o.id = od.order_id
+GROUP BY o.id, o.customer_name
+ORDER BY o.id ASC;
