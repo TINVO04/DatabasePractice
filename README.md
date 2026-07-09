@@ -37,8 +37,10 @@ DatabasePractice/
 ├── sql/
 │   ├── day01/
 │   │   └── 01_create_tables.sql
-│   └── day02/
-│       └── 01_crud_queries.sql
+│   ├── day02/
+│   │   └── 01_crud_queries.sql
+│   └── day03/
+│       └── 02_join_report_queries.sql
 ├── docs/
 │   └── day01/
 │       ├── erd.md
@@ -207,6 +209,41 @@ Lưu ý: không nên chạy lại toàn bộ phần seed nhiều lần vì cột
 - ORDER BY dùng để sắp xếp kết quả.
 - BEGIN mở transaction.
 - ROLLBACK hủy thay đổi trong transaction.
+
+## Day 3 - JOIN, GROUP BY, COUNT, SUM và AVG
+
+### Nội dung đã làm
+
+- Seed dữ liệu enrollments để liên kết students với courses.
+- Viết query INNER JOIN để lấy danh sách sinh viên kèm khóa học.
+- Viết query GROUP BY và COUNT để đếm số sinh viên theo từng khóa học.
+- Viết query LEFT JOIN để tìm khóa học chưa có sinh viên đăng ký.
+- Hoàn thành mini challenge Orders/OrderDetails.
+- Dùng SUM để tính tổng tiền của từng đơn hàng.
+
+### File chính
+
+- `sql/day03/02_join_report_queries.sql`
+
+### Cách chạy SQL Day 3 bằng pgAdmin
+
+1. Mở pgAdmin 4.
+2. Kết nối server PostgreSQL 17.
+3. Mở database `database_practice`.
+4. Right click database `database_practice` > Query Tool.
+5. Copy từng nhóm query trong file `sql/day03/02_join_report_queries.sql` vào Query Tool.
+6. Bấm Execute hoặc nhấn F5.
+
+Lưu ý: nên chạy từng phần theo thứ tự từ trên xuống dưới. Với phần mini challenge Orders/OrderDetails, script có `DROP TABLE IF EXISTS` nên có thể chạy lại để reset dữ liệu bảng orders và order_details.
+
+### Ghi chú học tập Day 3
+
+- INNER JOIN chỉ lấy dữ liệu có khớp ở cả hai bảng.
+- LEFT JOIN lấy toàn bộ dữ liệu bảng bên trái, kể cả khi bảng bên phải không có dữ liệu khớp.
+- GROUP BY dùng để gom nhiều dòng thành từng nhóm.
+- COUNT dùng để đếm số dòng trong từng nhóm.
+- SUM dùng để tính tổng giá trị số.
+- Bảng order_details là bảng con của orders thông qua khóa ngoại order_id.
 
 ## Ghi chú học tập
 
