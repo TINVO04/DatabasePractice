@@ -39,8 +39,10 @@ DatabasePractice/
 │   │   └── 01_create_tables.sql
 │   ├── day02/
 │   │   └── 01_crud_queries.sql
-│   └── day03/
-│       └── 02_join_report_queries.sql
+│   ├── day03/
+│   │   └── 02_join_report_queries.sql
+│   └── day04/
+│       └── 03_api_list_queries.sql
 ├── docs/
 │   └── day01/
 │       ├── erd.md
@@ -244,6 +246,64 @@ Lưu ý: nên chạy từng phần theo thứ tự từ trên xuống dưới. V
 - COUNT dùng để đếm số dòng trong từng nhóm.
 - SUM dùng để tính tổng giá trị số.
 - Bảng order_details là bảng con của orders thông qua khóa ngoại order_id.
+
+## Day 4 - Pagination, search, sort và thiết kế dữ liệu cho API
+
+### Nội dung đã làm
+
+- Tạo bảng categories và products để luyện query danh sách sản phẩm cho API.
+- Thêm các cột audit/soft delete: created_at, updated_at, is_deleted.
+- Seed dữ liệu mẫu gồm 5 categories và 15 products.
+- Viết query pagination bằng LIMIT và OFFSET theo page/pageSize.
+- Viết query search sản phẩm theo tên bằng ILIKE.
+- Viết query sort sản phẩm theo price và product_name.
+- Hoàn thành mini challenge kết hợp search + category + pagination.
+
+### File chính
+
+- `sql/day04/03_api_list_queries.sql`
+
+### Cách chạy SQL Day 4 bằng pgAdmin
+
+1. Mở pgAdmin 4.
+2. Kết nối server PostgreSQL 17.
+3. Mở database `database_practice`.
+4. Right click database `database_practice` > Query Tool.
+5. Copy từng nhóm query trong file `sql/day04/03_api_list_queries.sql` vào Query Tool.
+6. Bấm Execute hoặc nhấn F5.
+
+Lưu ý: phần setup có `DROP TABLE IF EXISTS products` và `DROP TABLE IF EXISTS categories`, nên khi chạy lại sẽ reset dữ liệu sản phẩm và danh mục.
+
+### Giải thích page và pageSize
+
+- page là số trang hiện tại mà client muốn lấy.
+- pageSize là số dòng dữ liệu trên mỗi trang.
+- LIMIT tương ứng với pageSize.
+- OFFSET là số dòng cần bỏ qua trước khi lấy dữ liệu.
+
+Công thức:
+
+```text
+OFFSET = (page - 1) * pageSize
+```
+
+Ví dụ:
+
+```text
+page = 1, pageSize = 5 => LIMIT 5 OFFSET 0
+page = 2, pageSize = 5 => LIMIT 5 OFFSET 5
+page = 3, pageSize = 5 => LIMIT 5 OFFSET 10
+```
+
+### Ghi chú học tập Day 4
+
+- LIMIT dùng để giới hạn số dòng trả về.
+- OFFSET dùng để bỏ qua một số dòng trước khi lấy dữ liệu.
+- ILIKE dùng để search gần đúng và không phân biệt chữ hoa/chữ thường trong PostgreSQL.
+- ORDER BY dùng để sort dữ liệu tăng dần hoặc giảm dần.
+- is_deleted dùng cho soft delete, nghĩa là không xóa thật dữ liệu khỏi database.
+- created_at và updated_at là audit fields, giúp biết dữ liệu được tạo và cập nhật lúc nào.
+- Query API list thường kết hợp nhiều yếu tố: search, filter, sort và pagination.
 
 ## Ghi chú học tập
 
