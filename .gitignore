@@ -1,0 +1,30 @@
+﻿# .NET build output
+bin/
+obj/
+
+# Visual Studio / VS Code local settings
+.vs/
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Office temp files
+~$*
+
+# Local learning documents
+*.docx
+*.pdf
+*.pptx
+*.xlsx
+
+# Local AI/process notes
+AI_WORKING_PROCESS_LOCAL.md
+.roomodes
