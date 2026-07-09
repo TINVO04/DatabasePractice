@@ -12,6 +12,17 @@ Day 1 tập trung vào các kiến thức nền tảng:
 - Quan hệ one-to-many và many-to-many.
 - ERD cơ bản.
 
+Day 2 tập trung vào các câu lệnh SQL cơ bản:
+
+- SELECT.
+- INSERT.
+- UPDATE.
+- DELETE.
+- WHERE.
+- LIKE.
+- ORDER BY.
+- Transaction cơ bản với BEGIN và ROLLBACK.
+
 ## Công nghệ sử dụng
 
 - PostgreSQL 17
@@ -24,8 +35,10 @@ Day 1 tập trung vào các kiến thức nền tảng:
 ```text
 DatabasePractice/
 ├── sql/
-│   └── day01/
-│       └── 01_create_tables.sql
+│   ├── day01/
+│   │   └── 01_create_tables.sql
+│   └── day02/
+│       └── 01_crud_queries.sql
 ├── docs/
 │   └── day01/
 │       ├── erd.md
@@ -153,6 +166,47 @@ Foreign key giúp:
 - Giữ quan hệ giữa các bảng rõ ràng.
 - Giúp database tự kiểm tra tính đúng đắn của dữ liệu.
 - Giúp người đọc database hiểu bảng nào liên kết với bảng nào.
+
+## Day 2 - SELECT, INSERT, UPDATE, DELETE và WHERE
+
+### Nội dung đã làm
+
+- Seed dữ liệu mẫu gồm 5 courses và 20 students.
+- Viết query INSERT để thêm sinh viên mới.
+- Viết query UPDATE để sửa thông tin sinh viên.
+- Viết query DELETE để xóa sinh viên theo điều kiện.
+- Viết query SELECT để đọc danh sách sinh viên.
+- Viết query tìm sinh viên theo email chính xác.
+- Viết query tìm sinh viên theo tên bằng LIKE.
+- Viết query tìm sinh viên theo một phần email bằng LIKE.
+- Hoàn thành mini challenge DELETE an toàn theo Id và ROLLBACK transaction.
+
+### File chính
+
+- `sql/day02/01_crud_queries.sql`
+
+### Cách chạy SQL Day 2 bằng pgAdmin
+
+1. Mở pgAdmin 4.
+2. Kết nối server PostgreSQL 17.
+3. Mở database `database_practice`.
+4. Right click database `database_practice` > Query Tool.
+5. Copy từng nhóm query trong file `sql/day02/01_crud_queries.sql` vào Query Tool.
+6. Bấm Execute hoặc nhấn F5.
+
+Lưu ý: không nên chạy lại toàn bộ phần seed nhiều lần vì cột `email` của bảng `students` có ràng buộc UNIQUE, chạy lại có thể bị lỗi trùng email.
+
+### Ghi chú học tập Day 2
+
+- INSERT dùng để thêm dữ liệu mới.
+- SELECT dùng để đọc dữ liệu.
+- UPDATE dùng để sửa dữ liệu đã có.
+- DELETE dùng để xóa dữ liệu.
+- WHERE dùng để giới hạn dòng dữ liệu bị tác động.
+- LIKE dùng để tìm kiếm gần đúng.
+- ORDER BY dùng để sắp xếp kết quả.
+- BEGIN mở transaction.
+- ROLLBACK hủy thay đổi trong transaction.
 
 ## Ghi chú học tập
 
