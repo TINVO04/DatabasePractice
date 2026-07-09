@@ -94,3 +94,42 @@ SELECT id, full_name, email
 FROM students
 WHERE email = 'test.student@example.com';
 
+-- =====================================================
+-- 6. SELECT: lấy danh sách sinh viên
+-- =====================================================
+-- SELECT dùng để đọc dữ liệu từ bảng.
+-- ORDER BY dùng để sắp xếp kết quả.
+
+SELECT id, full_name, email, date_of_birth, created_at
+FROM students
+ORDER BY id ASC;
+
+-- =====================================================
+-- 7. SELECT + WHERE: tìm sinh viên theo email chính xác
+-- =====================================================
+-- Dấu = dùng khi cần tìm đúng một giá trị cụ thể.
+
+SELECT id, full_name, email, date_of_birth
+FROM students
+WHERE email = 'an.nguyen@example.com';
+
+-- =====================================================
+-- 8. SELECT + LIKE: tìm sinh viên theo tên
+-- =====================================================
+-- LIKE dùng để tìm gần đúng.
+-- %An% nghĩa là tên có chứa chữ An ở bất kỳ vị trí nào.
+
+SELECT id, full_name, email, date_of_birth
+FROM students
+WHERE full_name LIKE '%An%'
+ORDER BY full_name ASC;
+
+-- =====================================================
+-- 9. SELECT + LIKE: tìm sinh viên theo một phần email
+-- =====================================================
+-- %@example.com nghĩa là email kết thúc bằng @example.com.
+
+SELECT id, full_name, email, date_of_birth
+FROM students
+WHERE email LIKE '%@example.com'
+ORDER BY email ASC;
