@@ -291,3 +291,65 @@ LEFT JOIN stock_out so ON p.id = so.product_id
 WHERE so.id IS NULL
   AND p.is_deleted = FALSE
 ORDER BY p.id ASC;
+
+-- =====================================================
+-- 5. Required queries group C: GROUP BY thống kê
+-- =====================================================
+
+-- Query 11: Đếm số sản phẩm theo từng category
+SELECT
+    c.id AS category_id,
+    c.category_name,
+    COUNT(p.id) AS total_products
+FROM categories c
+LEFT JOIN products p ON c.id = p.category_id AND p.is_deleted = FALSE
+WHERE c.is_deleted = FALSE
+GROUP BY c.id, c.category_name
+ORDER BY c.id ASC;
+
+-- Query 12: Tổng số lượng tồn kho theo từng category
+SELECT
+    c.id AS category_id,
+    c.category_name,
+    SUM(p.stock_quantity) AS total_stock_quantity
+FROM categories c
+INNER JOIN products p ON c.id = p.category_id
+WHERE c.is_deleted = FALSE
+  AND p.is_deleted = FALSE
+GROUP BY c.id, c.category_name
+ORDER BY total_stock_quantity DESC;
+
+-- Query 13: Tổng tiền nhập kho theo từng sản phẩm
+SELECT
+    p.id AS product_id,
+    p.product_name,
+    SUM(si.quantity) AS total_in_quantity,
+    SUM(si.quantity * si.unit_cost) AS total_in_cost
+FROM products p
+INNER JOIN stock_in si ON p.id = si.product_id
+WHERE p.is_deleted = FALSE
+GROUP BY p.id, p.product_name
+ORDER BY total_in_cost DESC;
+
+-- Query 14: Tổng tiền xuất kho theo từng sản phẩm
+SELECT
+    p.id AS product_id,
+    p.product_name,
+    SUM(so.quantity) AS total_out_quantity,
+    SUM(so.quantity * so.unit_price) AS total_out_amount
+FROM products p
+INNER JOIN stock_out so ON p.id = so.product_id
+WHERE p.is_deleted = FALSE
+GROUP BY p.id, p.product_name
+ORDER BY total_out_amount DESC;
+
+-- Query 15: Tổng doanh thu xuất kho theo từng user
+SELECT
+    u.id AS user_id,
+    u.full_name,
+    SUM(so.quantity * so.unit_price) AS total_sales_amount
+FROM users u
+INNER JOIN stock_out so ON u.id = so.user_id
+WHERE u.is_deleted = FALSE
+GROUP BY u.id, u.full_name
+ORDER BY total_sales_amount DESC;
