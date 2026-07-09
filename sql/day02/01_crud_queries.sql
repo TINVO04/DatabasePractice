@@ -133,3 +133,38 @@ SELECT id, full_name, email, date_of_birth
 FROM students
 WHERE email LIKE '%@example.com'
 ORDER BY email ASC;
+
+-- =====================================================
+-- 10. Mini challenge: DELETE an toàn theo Id và ROLLBACK
+-- =====================================================
+-- Mục tiêu:
+-- 1. Kiểm tra dữ liệu bằng SELECT trước khi DELETE.
+-- 2. DELETE theo id cụ thể để tránh xóa nhầm nhiều dòng.
+-- 3. Dùng ROLLBACK để hủy thay đổi sau khi test.
+
+-- Bắt đầu transaction.
+BEGIN;
+
+-- Bước 1: kiểm tra student cần xóa thử.
+SELECT id, full_name, email
+FROM students
+WHERE id = 1;
+
+-- Bước 2: xóa thử student có id = 1.
+DELETE FROM students
+WHERE id = 1;
+
+-- Bước 3: kiểm tra lại trong transaction.
+-- Nếu không còn student id = 1, nghĩa là DELETE đã chạy.
+SELECT id, full_name, email
+FROM students
+WHERE id = 1;
+
+-- Bước 4: rollback để hủy thao tác DELETE.
+ROLLBACK;
+
+-- Bước 5: kiểm tra lại sau rollback.
+-- Nếu student id = 1 xuất hiện lại, nghĩa là rollback thành công.
+SELECT id, full_name, email
+FROM students
+WHERE id = 1;
