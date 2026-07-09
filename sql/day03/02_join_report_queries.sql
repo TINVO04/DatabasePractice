@@ -59,3 +59,17 @@ FROM courses c
 INNER JOIN enrollments e ON c.id = e.course_id
 GROUP BY c.id, c.course_name
 ORDER BY c.id ASC;
+
+-- =====================================================
+-- 4. LEFT JOIN: danh sách khóa học chưa có sinh viên
+-- =====================================================
+-- LEFT JOIN lấy tất cả dữ liệu ở bảng bên trái.
+-- Nếu bên phải không có dữ liệu khớp thì các cột bên phải sẽ là NULL.
+
+SELECT
+    c.id AS course_id,
+    c.course_name
+FROM courses c
+LEFT JOIN enrollments e ON c.id = e.course_id
+WHERE e.id IS NULL
+ORDER BY c.id ASC;
